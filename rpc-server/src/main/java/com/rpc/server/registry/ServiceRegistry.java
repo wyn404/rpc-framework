@@ -35,7 +35,7 @@ public class ServiceRegistry {
             String[] serviceInfo = key.split(ServiceUtil.SERVICE_CONCAT_TOKEN);
             if (serviceInfo.length > 0){
                 RpcServiceInfo rpcServiceInfo = new RpcServiceInfo();
-                rpcServiceInfo.setService.Name(serviceInfo[0]);
+                rpcServiceInfo.setServiceName(serviceInfo[0]);
                 if (serviceInfo.length == 2){
                     rpcServiceInfo.setVersion(serviceInfo[1]);
                 }
@@ -49,7 +49,7 @@ public class ServiceRegistry {
             }
         }
         try {
-            RpcProtocol rpcProtocol new RpcProtocol();
+            RpcProtocol rpcProtocol = new RpcProtocol();
             rpcProtocol.setHost(host);
             rpcProtocol.setPort(port);
             rpcProtocol.setServiceInfoList(serviceInfoList);
@@ -83,8 +83,7 @@ public class ServiceRegistry {
                 logger.error("Delete service path error: " + e.getMessage());
             }
         }
+        this.curatorClient.close();
     }
-    this.curatorClient.close();
-
 }
 
