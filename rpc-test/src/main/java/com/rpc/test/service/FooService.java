@@ -3,6 +3,7 @@ package com.rpc.test.service;
 import com.rpc.common.annotation.RpcAutowired;
 
 public class FooService implements Foo{
+
     @RpcAutowired(version = "1.0")
     private HelloService helloService1;
 

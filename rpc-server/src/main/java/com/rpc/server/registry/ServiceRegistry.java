@@ -58,7 +58,7 @@ public class ServiceRegistry {
             String path = Constant.ZK_DATA_PATH + "-" + rpcProtocol.hashCode();
             path = this.curatorClient.createPathData(path, bytes);
             pathList.add(path);
-            logger.info("Register {] new service, host: {}, port: {}", serviceInfoList.size(), host, port);
+            logger.info("Register {} new service, host: {}, port: {}", serviceInfoList.size(), host, port);
         } catch (Exception e) {
             logger.error("Register service fail, exception: {}", e.getMessage());
         }
