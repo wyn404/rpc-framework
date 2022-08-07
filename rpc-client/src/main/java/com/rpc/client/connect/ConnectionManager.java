@@ -52,7 +52,7 @@ public class ConnectionManager {
         private static final ConnectionManager instance = new ConnectionManager();
     }
 
-    private static ConnectionManager getInstance() {
+    public static ConnectionManager getInstance() {
         return SingletonHolder.instance;
     }
 
@@ -168,7 +168,7 @@ public class ConnectionManager {
         }
     }
 
-    private RpcClientHandler chooseHandler(String serviceKey) throws Exception {
+    public RpcClientHandler chooseHandler(String serviceKey) throws Exception {
         int size = connectedServerNodes.values().size();
         while (isRunning && size <= 0) {
             try {
@@ -211,9 +211,5 @@ public class ConnectionManager {
         threadPoolExecutor.shutdown();
         eventLoopGroup.shutdownGracefully();
     }
-
-
-
-
 
 }

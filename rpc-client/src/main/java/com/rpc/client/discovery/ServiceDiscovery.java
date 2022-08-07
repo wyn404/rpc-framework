@@ -1,4 +1,4 @@
-package com.rpc.client;
+package com.rpc.client.discovery;
 
 import com.rpc.client.connect.ConnectionManager;
 import com.rpc.common.config.Constant;
@@ -11,7 +11,6 @@ import org.apache.curator.framework.recipes.cache.PathChildrenCacheListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.plaf.IconUIResource;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
