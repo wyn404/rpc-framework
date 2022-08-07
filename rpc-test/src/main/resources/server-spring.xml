@@ -12,9 +12,9 @@
 
     <context:property-placeholder location="classpath:rpc.properties"/>
 
-    <!--    <bean id="serviceRegistry" class="com.rpc.server.registry.ServiceRegistry">-->
-    <!--        <constructor-arg name="registryAddress" value="${registry.address}"/>-->
-    <!--    </bean>-->
+    <bean id="serviceRegistry" class="com.rpc.server.registry.ServiceRegistry">
+        <constructor-arg name="registryAddress" value="${registry.address}"/>
+    </bean>
 
     <bean id="rpcServer" class="com.rpc.server.RpcServer">
         <constructor-arg name="serverAddress" value="${server.address}"/>
