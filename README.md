@@ -1,12 +1,8 @@
 # rpc-framework
 
-------
-
 
 
 ## 介绍
-
-------
 
 一个基于Netty+Kryo+Zookeeper实现的轻量级分布式RPC框架。
 
@@ -14,13 +10,11 @@ RPC，即Remote Procedure Call（远程过程调用），调用远程计算机�
 
 这个RPC整体框架使用示意图如下图所示：
 
-<img src="D:\Code\IdeaProjects\rpc-framework\images\framework.png" alt="D:\Code\IdeaProjects\rpc-framework\images\fr" style="zoom:67%;" />
+<img src=".\images\framework.png" />
 
 服务端Server向注册中心注册服务，客户端Client通过注册中心获取服务相关信息，然后通过网络请求服务端Server。
 
 ## 特点
-
-------
 
 - 简单的代码和框架
 - 使用Netty（基于NIO）替代BIO实现网络传输
@@ -32,8 +26,6 @@ RPC，即Remote Procedure Call（远程过程调用），调用远程计算机�
 - 支持服务端异步多线程处理RPC请求
 
 ## 运行项目（rpc-test）
-
-------
 
 ### 导入项目
 
@@ -99,8 +91,6 @@ String result = (String) helloFuture.get(3000, TimeUnit.MILLISECONDS);
 ```
 
 ## 项目结构
-
-------
 
 ```
 rpc-framework
