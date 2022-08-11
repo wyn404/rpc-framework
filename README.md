@@ -135,7 +135,7 @@ rpc-framework
 |  |  |-- KyroSerializer                 kryo序列化
 |  |  \-- serializer                     序列化抽象类
 |  |-- util                              工具类
-|  |  |-- JsonUtil 	                     Json工具类
+|  |  |-- JsonUtil                       Json工具类
 |  |  |-- ServiceUtil                    service工具类
 |  |  \-- ThreadPoolUtil                 线程池工具类
 |  \-- zookeeper                     
