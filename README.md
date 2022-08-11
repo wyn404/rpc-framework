@@ -10,7 +10,7 @@ RPC，即Remote Procedure Call（远程过程调用），调用远程计算机�
 
 这个RPC整体框架使用示意图如下图所示：
 
-<div align=left><img src=".\images\framework.png" style="zoom:50%;"/></div>
+<div align=left  style="zoom:50%"><img src=".\images\framework.png"/></div>
 
 服务端Server向注册中心注册服务，客户端Client通过注册中心获取服务相关信息，然后通过网络请求服务端Server。
 
