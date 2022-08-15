@@ -1,6 +1,5 @@
 package com.rpc.common.protocol;
 
-import com.rpc.common.annotation.RpcService;
 import com.rpc.common.util.JsonUtil;
 
 import java.util.Objects;

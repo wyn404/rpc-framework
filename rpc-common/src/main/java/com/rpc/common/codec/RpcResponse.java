@@ -10,7 +10,7 @@ import java.io.Serializable;
  * RPC Response
  */
 public class RpcResponse implements Serializable {
-    private static final long seriaVersionID = 8215493329459772524L;
+    private static final long serialVersionUID = 8215493329459772524L;
 
     private String requestId;
     private String error;

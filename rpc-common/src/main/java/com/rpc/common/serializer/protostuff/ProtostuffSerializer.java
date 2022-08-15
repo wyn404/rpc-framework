@@ -1,15 +1,17 @@
 package com.rpc.common.serializer.protostuff;
 
+import com.dyuproject.protostuff.LinkedBuffer;
+import com.dyuproject.protostuff.ProtostuffIOUtil;
+import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import com.rpc.common.serializer.Serializer;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 
-import javax.xml.validation.Schema;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ProtostuffSerialize extends Serializer {
+public class ProtostuffSerializer extends Serializer {
 
     private Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<>();
 
@@ -23,11 +25,27 @@ public class ProtostuffSerialize extends Serializer {
 
     @Override
     public <T> byte[] serialize(T obj) {
-        return new byte[0];
+        Class<T> cls = (Class<T>) obj.getClass();
+        LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
+        try {
+            Schema<T> schema = getSchema(cls);
+            return ProtostuffIOUtil.toByteArray(obj, schema, buffer);
+        } catch (Exception e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        } finally {
+            buffer.clear();
+        }
     }
 
     @Override
     public <T> Object deserialize(byte[] bytes, Class<T> cla) {
-        return null;
+        try {
+            T message = (T) objenesis.newInstance(cla);
+            Schema<T> schema = getSchema(cla);
+            ProtostuffIOUtil.mergeFrom(bytes, message, schema);
+            return message;
+        } catch (Exception e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
     }
 }

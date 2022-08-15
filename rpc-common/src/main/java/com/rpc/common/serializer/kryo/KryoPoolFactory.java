@@ -1,4 +1,4 @@
-package com.rpc.common.serializer;
+package com.rpc.common.serializer.kryo;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.pool.KryoFactory;
