@@ -8,11 +8,14 @@
 
 RPC，即Remote Procedure Call（远程过程调用），调用远程计算机上的服务，就像调用本地服务一样。
 
-这个RPC整体框架使用示意图如下图所示：
+这个RPC整体框架调用过程如图所示：
 
-<div align=left><img src=".\images\framework.png" width="380px"/></div>
+<div align=left><img src=".\images\process.jpg" width="500px"/></div>
 
-服务端Server向注册中心注册服务，客户端Client通过注册中心获取服务相关信息，然后通过网络请求服务端Server。
+1. client通过动态代理生成代理对象，通过代理对象将请求对象序列化成二进制数据，进行编码，使用Netty选择一个从注册中心注册的server的地址，异步发起网络请求。
+2. server从TCP通道中接收到二进制数据，根据定义的RPC网络协议，将数据进行解码，反序列化后，分割出接口地址和参数对象，通过反射找到接口执行调用。
+3. server将调用执行结果进行序列化，编码，异步发送到TCP通道中。
+4. client获取到二进制数据后，解码，反序列化成结果对象。
 
 ## 特点
 
@@ -94,75 +97,65 @@ String result = (String) helloFuture.get(3000, TimeUnit.MILLISECONDS);
 
 ```
 rpc-framework
-
 |-- rpc-client                           rpc客户端
 |  |-- connect                          
 |  |  \-- ConnctionManager               rpc连接管理
 |  |-- discovery                        
 |  |  \-- ServiceDiscovery               rpc服务发现
 |  |-- handler                           
-|  |  |-- AsyncRPCCallback               rpc异步回调接口
+|  |  |-- AsyncRPCCallback               
 |  |  |-- RpcClientHandler               rpc客户端处理
 |  |  |-- RpcClientInitializer           rpc客户端初始化
 |  |  \-- RpcFuture                      rpc-future用于异步rpc调用
-|  |-- proxy                             代理工具类
+|  |-- proxy                            
 |  |  |-- ObjectProxy                    rpc对象代理
-|  |  |-- RpcService                     rpc服务接口
-|  |  \-- SerializableFunction           序列化函数接口
+|  |  |-- RpcService                     
+|  |  \-- SerializableFunction           
 |  |-- route                             调度算法
-|  |  |-- impl                           接口类实现
+|  |  |-- impl                       
+|  |  |  \-- RpcLoad...ConsistentHash    rpc哈希一致性负载均衡
+|  |  |  \-- RpcLoadBalanceLFU           rpcLFU负载均衡
+|  |  |  \-- RpcLoadBalanceLRU           rpcLRU负载均衡
 |  |  |  \-- RpcLoadBalanceRoundRobin    rpc轮询调度负载均衡
-|  |  \-- RpcLoadBalance                 rpc负载均衡抽象类
-|  \-- RpcClient                         rpc客户端  
-
+|  |  \-- RpcLoadBalance                 
+|  \-- RpcClient                         实现rpc client  
 |-- rpc-common                           rpc工具类  
-|  |-- annotation                        注解包
-|  |  |-- RpcAutowired                   服务注解
-|  |  \-- RpcService                     服务注解		
-|  |-- codec                             代码类
-|  |  |-- Beat                           rpc筛选器常量
+|  |-- annotation                        注解
+|  |  |-- RpcAutowired                   
+|  |  \-- RpcService                     		
+|  |-- codec                             
+|  |  |-- Beat                           
 |  |  |-- RpcDecoder                     rpc解码
 |  |  |-- RpcEncoder                     rpc编码
-|  |  |-- RpcReuqest                     rpc请求
-|  |  \-- RpcResponse                    rpc响应
+|  |  |-- RpcReuqest                     rpc请求实体
+|  |  \-- RpcResponse                    rpc响应实体
 |  |-- config                      
 |  |  \-- Constant                       zookeeper常量
-|  |-- protocol                          协议类
+|  |-- protocol                          
 |  |  |-- RpcProtocol                    rpc协议
 |  |  \-- RpcServiceInfo                 rpc服务信息
-|  |-- serializer                        序列化
-|  |  |-- KryoPoolFactory                kryo对象池工厂
-|  |  |-- KyroSerializer                 kryo序列化
-|  |  \-- serializer                     序列化抽象类
-|  |-- util                              工具类
+|  |-- serializer       
+|  |  |-- kryo 
+|  |  |  |-- KryoPoolFactory             kryo对象池工厂
+|  |  |  \-- KyroSerializer              kryo序列化
+|  |  |-- protostuff 
+|  |  |  \-- ProtostuffSerializer        protostuff序列化
+|  |  \-- serializer                     
+|  |-- util                              
 |  |  |-- JsonUtil 	                     Json工具类
 |  |  |-- ServiceUtil                    service工具类
 |  |  \-- ThreadPoolUtil                 线程池工具类
 |  \-- zookeeper                     
 |  |  \-- CuratorClient                  zookeeper集群配置
-
-|-- rpc-server                           rpc服务类
-|  |-- core                              核心代码
+\-- rpc-server                           rpc服务类
+|  |-- core                              
 |  |  |-- NettyServer                    基于Netty的server
 |  |  |-- RpcServerHandler               rpc服务处理
 |  |  |-- RpcServerInitializer           rpc服务初始化
-|  |  \-- Server                         Server抽象类 
+|  |  \-- Server                          
 |  |-- registry                         
 |  |  \-- ServiceRegistry                服务注册
 |  \-- RpcServer                         实现rpc server
-
-\-- rpc-test                             rpc测试类
-|  |-- client                          
-|  |  |-- RpcAsyncTest                   client异步调用
-|  |  \-- RpcTest                        client同步调用
-|  |-- server                          
-|  |  \-- RpcServerBootstrap             启动server发布service
-|  |-- service                           service包
-|  |  |-- Foo                            服务接口
-|  |  |-- FooService                     服务实现
-|  |  |-- HelloService                   服务接口
-|  |  |-- HelloServiceImpl               服务实现
-|  |  \-- Person                      
 |  \-- resources                         资源配置
 |  |  |-- log4j                          log4j日志
 |  |  |-- rpc                            rpc端口号
