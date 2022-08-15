@@ -10,7 +10,7 @@ RPC，即Remote Procedure Call（远程过程调用），调用远程计算机�
 
 这个RPC整体框架调用过程如图所示：
 
-<div align=left><img src=".\images\process.jpg" width="500px"/></div>
+<div align=center><img src=".\images\process.jpg" width="500px"/></div>
 
 1. client通过动态代理生成代理对象，通过代理对象将请求对象序列化成二进制数据，进行编码，使用Netty选择一个从注册中心注册的server的地址，异步发起网络请求。
 2. server从TCP通道中接收到二进制数据，根据定义的RPC网络协议，将数据进行解码，反序列化后，分割出接口地址和参数对象，通过反射找到接口执行调用。
@@ -142,7 +142,7 @@ rpc-framework
 |  |  |  \-- ProtostuffSerializer        protostuff序列化
 |  |  \-- serializer                     
 |  |-- util                              
-|  |  |-- JsonUtil 	                     Json工具类
+|  |  |-- JsonUtil                       Json工具类
 |  |  |-- ServiceUtil                    service工具类
 |  |  \-- ThreadPoolUtil                 线程池工具类
 |  \-- zookeeper                     
