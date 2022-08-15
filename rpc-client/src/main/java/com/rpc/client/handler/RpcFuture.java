@@ -130,7 +130,7 @@ public class RpcFuture implements Future<Object> {
 
     private class Sync extends AbstractQueuedSynchronizer {
 
-        private static final long seriaVersionID = 1L;
+        private static final long serialVersionUID = 1L;
 
         //future status
         private final int done = 1;

@@ -1,7 +1,7 @@
 package com.rpc.client.handler;
 
 import com.rpc.common.codec.*;
-import com.rpc.common.serializer.KryoSerializer;
+import com.rpc.common.serializer.kryo.KryoSerializer;
 import com.rpc.common.serializer.Serializer;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
